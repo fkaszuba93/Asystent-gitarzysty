@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Asystent gitarzysty</string>
+
+    <string name="tablature">Tablature</string>
+    <string name="chords">Chords</string>
+    <string name="lyrics">Lyrics</string>
 </resources>
