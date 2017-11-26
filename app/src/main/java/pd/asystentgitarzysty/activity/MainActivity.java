@@ -1,5 +1,9 @@
 package pd.asystentgitarzysty.activity;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TabHost;
@@ -9,6 +13,12 @@ import pd.asystentgitarzysty.fragment.*;
 import pd.asystentgitarzysty.R;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] STORAGE_PERMISSIONS = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
 
     private TabHost tabHost;
 
@@ -22,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         addTab(R.string.tablature, R.id.tab1);
         addTab(R.string.chords, R.id.tab2);
         addTab(R.string.lyrics, R.id.tab3);
+        verifyStoragePermissions();
         addFragments();
     }
 
@@ -39,5 +50,17 @@ public class MainActivity extends AppCompatActivity {
                 .add(R.id.tab2, new ChordsFragment())
                 .add(R.id.tab3, new LyricsFragment())
                 .commit();
+    }
+
+    public static boolean isExternalStorageAvailable() {
+        String state = Environment.getExternalStorageState();
+        return state.equals(Environment.MEDIA_MOUNTED);
+    }
+
+    public void verifyStoragePermissions() {
+        int permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, STORAGE_PERMISSIONS, REQUEST_EXTERNAL_STORAGE);
+        }
     }
 }
