@@ -50,6 +50,9 @@ public class LyricsFragment extends Fragment {
             lyricsText.setText(lyrics);
             lyricsView.setVisibility(View.VISIBLE);
             noLyricsText.setVisibility(View.GONE);
+        } else {
+            lyricsView.setVisibility(View.GONE);
+            noLyricsText.setVisibility(View.VISIBLE);
         }
     }
 
