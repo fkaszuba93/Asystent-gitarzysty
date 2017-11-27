@@ -9,8 +9,12 @@ import android.os.Bundle;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 
+import java.util.Arrays;
+import java.util.List;
+
 import pd.asystentgitarzysty.fragment.*;
 import pd.asystentgitarzysty.R;
+import pd.asystentgitarzysty.model.Song;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
     };
 
     private TabHost tabHost;
+    private List<Song> songs = Arrays.asList(new Song("", "test"));
+    private int currentSong = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +56,10 @@ public class MainActivity extends AppCompatActivity {
                 .add(R.id.tab2, new ChordsFragment())
                 .add(R.id.tab3, new LyricsFragment())
                 .commit();
+    }
+
+    public Song getCurrentSong(){
+        return songs.get(currentSong);
     }
 
     public static boolean isExternalStorageAvailable() {
