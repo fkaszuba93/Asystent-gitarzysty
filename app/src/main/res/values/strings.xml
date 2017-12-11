@@ -4,7 +4,12 @@
     <string name="tablature">Tablature</string>
     <string name="chords">Chords</string>
     <string name="lyrics">Lyrics</string>
+    <string name="artist">Artist</string>
+    <string name="title">Title</string>
     <string name="no_chords_available">No chords available</string>
     <string name="no_lyrics_available">No lyrics available</string>
     <string name="no_tablature_available">No tablature available</string>
+    <string name="add_song">Add song</string>
+    <string name="add">Add</string>
+    <string name="cancel">Cancel</string>
 </resources>

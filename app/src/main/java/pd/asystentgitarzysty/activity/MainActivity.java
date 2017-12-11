@@ -9,11 +9,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import pd.asystentgitarzysty.fragment.*;
@@ -30,14 +31,12 @@ public class MainActivity extends AppCompatActivity {
 
     private TabHost tabHost;
     private Spinner spinner;
+    private Button addButton;
     private ChordsFragment chordsFragment;
     private LyricsFragment lyricsFragment;
     private TablatureFragment tablatureFragment;
 
-    private List<Song> songs = Arrays.asList(
-            new Song("", "test"),
-            new Song("qwerty", "test2")
-    );
+    private List<Song> songs = createList();
     private int currentSong = 0;
 
     @Override
@@ -45,15 +44,29 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        spinner = findViewById(R.id.spinner);
-        tabHost = findViewById(R.id.tabhost);
+        findView();
+
         tabHost.setup();
         addTab(R.string.tablature, R.id.tab1);
         addTab(R.string.chords, R.id.tab2);
         addTab(R.string.lyrics, R.id.tab3);
         setSpinner();
+        setAddButton();
         verifyStoragePermissions();
         addFragments();
+    }
+
+    private List<Song> createList(){
+        List<Song> list = new ArrayList<>();
+        list.add(new Song("", "test"));
+        list.add(new Song("qwerty", "test2"));
+        return list;
+    }
+
+    private void findView(){
+        spinner = findViewById(R.id.spinner);
+        tabHost = findViewById(R.id.tabhost);
+        addButton = findViewById(R.id.add_button);
     }
 
     private void addTab(int labelId, int content){
@@ -75,14 +88,28 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
-    public Song getCurrentSong(){
-        return songs.get(currentSong);
-    }
-
     private void setSpinner(){
         ArrayAdapter<Song> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, songs);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new SongsSpinnerSelectionListener());
+    }
+
+    private void setAddButton(){
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AddSongDialogFragment().show(getSupportFragmentManager(), "addSong");
+            }
+        });
+    }
+
+    public void addSong(Song s){
+        songs.add(s);
+        setSpinner();
+    }
+
+    public Song getCurrentSong(){
+        return songs.get(currentSong);
     }
 
     public static boolean isExternalStorageAvailable() {
@@ -97,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
     private class SongsSpinnerSelectionListener implements AdapterView.OnItemSelectedListener {
 
         @Override
@@ -107,7 +135,6 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onNothingSelected(AdapterView<?> adapterView) {
-
         }
     }
 }
