@@ -3,6 +3,8 @@ package pd.asystentgitarzysty.model;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 import pd.asystentgitarzysty.activity.MainActivity;
 
@@ -10,15 +12,19 @@ import static android.os.Environment.*;
 
 public class Song {
 
-    private String artist, title, lyricsFilename, tablatureFilename;
     static final String CHORDS_DIR = "AsystentGitarzysty/chords/";
     static final String LYRICS_DIR = "AsystentGitarzysty/lyrics/";
     static final String TABS_DIR = "AsystentGitarzysty/tabs/";
 
+    private String artist, title;
+    private String lyrics, tablature;
+    private String filename;
+    private Set<Chord> chords;
+
     public Song(String artist, String title){
         this.artist = artist;
         this.title = title;
-//        lyricsFilename = artist + " - " + title + ".txt";
+        filename = toString() + ".txt";
     }
 
     public String getArtist() {
@@ -29,18 +35,48 @@ public class Song {
         return title;
     }
 
-    public String getLyricsFromFile(){
-        String lyrics = null;
+    public String getLyrics(){
+        if (lyrics == null)
+            lyrics = getContentFromFile(LYRICS_DIR);
+        return lyrics;
+    }
+
+    public String getTablature(){
+        if (tablature == null)
+            tablature = getContentFromFile(TABS_DIR);
+        return tablature;
+    }
+
+    public Set<Chord> getChords(){
+        if (chords == null){
+            chords = new HashSet<>();
+            String data = getContentFromFile(CHORDS_DIR);
+            if (data != null)
+                parseChords(data);
+            else if (lyrics != null)
+                parseChords(lyrics);
+        }
+        return chords;
+    }
+
+    private void parseChords(String source){
+        for (String s: source.split("\\s"))
+            if (Chord.check(s))
+                chords.add(Chord.parse(s));
+    }
+
+    private String getContentFromFile(String dir){
+        String data = null;
         if (MainActivity.isExternalStorageAvailable()){
             try {
                 File file = new File(getExternalStoragePublicDirectory(DIRECTORY_DOCUMENTS),
-                        LYRICS_DIR + title + ".txt");
-                lyrics = readFile(file);
+                        dir + filename);
+                data = readFile(file);
             } catch(IOException e){
                 throw new RuntimeException(e.getMessage());
             }
         }
-        return lyrics;
+        return data;
     }
 
     private String readFile(File file) throws IOException {

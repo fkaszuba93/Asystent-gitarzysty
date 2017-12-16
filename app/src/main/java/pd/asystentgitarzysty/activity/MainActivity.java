@@ -58,8 +58,9 @@ public class MainActivity extends AppCompatActivity {
 
     private List<Song> createList(){
         List<Song> list = new ArrayList<>();
-        list.add(new Song("", "test"));
-        list.add(new Song("qwerty", "test2"));
+        /*list.add(new Song("", "test"));
+        list.add(new Song("qwerty", "test2"));*/
+        list.add(new Song("Jimi Hendrix", "Little Wing"));
         return list;
     }
 

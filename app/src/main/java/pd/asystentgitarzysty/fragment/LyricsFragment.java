@@ -41,7 +41,7 @@ public class LyricsFragment extends Fragment {
         lyricsText = v.findViewById(R.id.lyrics_text);
         noLyricsText = v.findViewById(R.id.no_lyrics_text);
         lyricsView = v.findViewById(R.id.lyrics_view);
-        displayLyrics(song.getLyricsFromFile());
+        displayLyrics(song.getLyrics());
         return v;
     }
 
@@ -58,6 +58,6 @@ public class LyricsFragment extends Fragment {
 
     public void setSong(Song song){
         this.song = song;
-        displayLyrics(song.getLyricsFromFile());
+        displayLyrics(song.getLyrics());
     }
 }
