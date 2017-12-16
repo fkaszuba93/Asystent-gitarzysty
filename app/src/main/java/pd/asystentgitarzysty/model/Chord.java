@@ -62,4 +62,15 @@ public class Chord {
     public String toString(){
         return key + type + extensions;
     }
+
+    @Override
+    public boolean equals(Object o){
+        if (!(o instanceof Chord))
+            return false;
+        else {
+            Chord ch = (Chord) o;
+            return this.key.equals(ch.key) && this.type.equals(ch.type)
+                    && this.extensions.equals(ch.extensions);
+        }
+    }
 }

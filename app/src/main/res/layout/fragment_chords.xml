@@ -17,4 +17,20 @@
         android:textSize="18sp"
         android:textStyle="italic" />
 
+    <ScrollView
+        android:id="@+id/chords_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/chords_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="30dp"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:visibility="visible" />
+
+    </ScrollView>
 </LinearLayout>
