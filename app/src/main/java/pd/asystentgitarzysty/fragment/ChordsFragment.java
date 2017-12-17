@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.Set;
+import java.util.List;
 
 import pd.asystentgitarzysty.R;
 import pd.asystentgitarzysty.activity.MainActivity;
@@ -21,7 +21,7 @@ public class ChordsFragment extends Fragment {
 
     private TextView chordsText, noChordsText;
     private View chordsView;
-    private Set<Chord> chords;
+    private List<Chord> chords;
 
     public ChordsFragment() {
         // Required empty public constructor

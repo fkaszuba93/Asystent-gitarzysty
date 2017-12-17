@@ -3,8 +3,8 @@ package pd.asystentgitarzysty.model;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import pd.asystentgitarzysty.activity.MainActivity;
 
@@ -19,7 +19,7 @@ public class Song {
     private String artist, title;
     private String lyrics, tablature;
     private String filename;
-    private Set<Chord> chords;
+    private List<Chord> chords;
 
     public Song(String artist, String title){
         this.artist = artist;
@@ -47,9 +47,9 @@ public class Song {
         return tablature;
     }
 
-    public Set<Chord> getChords(){
+    public List<Chord> getChords(){
         if (chords == null){
-            chords = new HashSet<>();
+            chords = new ArrayList<>();
             String data = getContentFromFile(CHORDS_DIR);
             if (data != null)
                 parseChords(data);
@@ -60,9 +60,13 @@ public class Song {
     }
 
     private void parseChords(String source){
-        for (String s: source.split("\\s"))
-            if (Chord.check(s))
-                chords.add(Chord.parse(s));
+        for (String s: source.split("\\s")) {
+            if (Chord.check(s)) {
+                Chord chord = Chord.parse(s);
+                if (!chords.contains(chord))
+                    chords.add(chord);
+            }
+        }
     }
 
     private String getContentFromFile(String dir){

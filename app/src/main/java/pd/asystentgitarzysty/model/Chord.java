@@ -2,6 +2,7 @@ package pd.asystentgitarzysty.model;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class Chord {
 
@@ -72,5 +73,10 @@ public class Chord {
             return this.key.equals(ch.key) && this.type.equals(ch.type)
                     && this.extensions.equals(ch.extensions);
         }
+    }
+
+    @Override
+    public int hashCode(){
+        return Objects.hash(key, type, extensions);
     }
 }
