@@ -19,8 +19,8 @@ public class LyricsFragment extends Fragment {
 
     private TextView lyricsText, noLyricsText;
     private View lyricsView;
-    private MainActivity activity;
-    private Song song;
+    private String lyrics;
+    private boolean isViewCreated = false;
 
     public LyricsFragment() {
         // Required empty public constructor
@@ -29,8 +29,8 @@ public class LyricsFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        activity = (MainActivity) context;
-        song = activity.getCurrentSong();
+        MainActivity activity = (MainActivity) context;
+        lyrics = activity.getCurrentSong().getLyrics();
     }
 
     @Override
@@ -38,14 +38,21 @@ public class LyricsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_lyrics, container, false);
+        lyricsView = v.findViewById(R.id.lyrics_view);
         lyricsText = v.findViewById(R.id.lyrics_text);
         noLyricsText = v.findViewById(R.id.no_lyrics_text);
-        lyricsView = v.findViewById(R.id.lyrics_view);
-        displayLyrics(song.getLyrics());
+        isViewCreated = true;
+        displayLyrics();
         return v;
     }
 
-    private void displayLyrics(String lyrics){
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        isViewCreated = false;
+    }
+
+    private void displayLyrics(){
         if (lyrics != null) {
             lyricsText.setText(lyrics);
             lyricsView.setVisibility(View.VISIBLE);
@@ -57,7 +64,8 @@ public class LyricsFragment extends Fragment {
     }
 
     public void setSong(Song song){
-        this.song = song;
-        displayLyrics(song.getLyrics());
+        lyrics = song.getLyrics();
+        if (isViewCreated)
+            displayLyrics();
     }
 }

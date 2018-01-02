@@ -23,6 +23,8 @@ import pd.asystentgitarzysty.model.Song;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAB = "pd.asystentgitarzysty.activity.tab";
+    private static final String CURRENT_SONG = "pd.asystentgitarzysty.activity.currentSong";
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] STORAGE_PERMISSIONS = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -32,9 +34,9 @@ public class MainActivity extends AppCompatActivity {
     private TabHost tabHost;
     private Spinner spinner;
     private Button addButton;
-    private ChordsFragment chordsFragment;
-    private LyricsFragment lyricsFragment;
-    private TablatureFragment tablatureFragment;
+    private ChordsFragment chordsFragment = new ChordsFragment();
+    private LyricsFragment lyricsFragment = new LyricsFragment();
+    private TablatureFragment tablatureFragment = new TablatureFragment();
 
     private List<Song> songs = createList();
     private int currentSong = 0;
@@ -43,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         findView();
 
         tabHost.setup();
@@ -54,12 +55,24 @@ public class MainActivity extends AppCompatActivity {
         setAddButton();
         verifyStoragePermissions();
         addFragments();
+
+        if (savedInstanceState != null){
+            tabHost.setCurrentTab(savedInstanceState.getInt(TAB));
+            currentSong = savedInstanceState.getInt(CURRENT_SONG);
+            updateFragments();
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle state) {
+        super.onSaveInstanceState(state);
+        state.putInt(TAB, tabHost.getCurrentTab());
+        state.putInt(CURRENT_SONG, currentSong);
     }
 
     private List<Song> createList(){
         List<Song> list = new ArrayList<>();
-        /*list.add(new Song("", "test"));
-        list.add(new Song("qwerty", "test2"));*/
+        list.add(new Song("qwerty", "test"));
         list.add(new Song("Jimi Hendrix", "Little Wing"));
         return list;
     }
@@ -79,9 +92,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addFragments(){
-        tablatureFragment = new TablatureFragment();
-        chordsFragment = new ChordsFragment();
-        lyricsFragment = new LyricsFragment();
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.tab1, tablatureFragment)
                 .add(R.id.tab2, chordsFragment)
@@ -113,6 +123,11 @@ public class MainActivity extends AppCompatActivity {
         return songs.get(currentSong);
     }
 
+    private void updateFragments(){
+        lyricsFragment.setSong(getCurrentSong());
+        chordsFragment.setSong(getCurrentSong());
+    }
+
     public static boolean isExternalStorageAvailable() {
         String state = Environment.getExternalStorageState();
         return state.equals(Environment.MEDIA_MOUNTED);
@@ -131,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
             currentSong = position;
-            lyricsFragment.setSong(getCurrentSong());
+            updateFragments();
         }
 
         @Override

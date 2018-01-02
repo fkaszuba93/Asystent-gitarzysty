@@ -12,9 +12,9 @@ import static android.os.Environment.*;
 
 public class Song {
 
-    static final String CHORDS_DIR = "AsystentGitarzysty/chords/";
-    static final String LYRICS_DIR = "AsystentGitarzysty/lyrics/";
-    static final String TABS_DIR = "AsystentGitarzysty/tabs/";
+    private static final String CHORDS_DIR = "AsystentGitarzysty/chords/";
+    private static final String LYRICS_DIR = "AsystentGitarzysty/lyrics/";
+    private static final String TABS_DIR = "AsystentGitarzysty/tabs/";
 
     private String artist, title;
     private String lyrics, tablature;
@@ -25,6 +25,9 @@ public class Song {
         this.artist = artist;
         this.title = title;
         filename = toString() + ".txt";
+        chords = getChords();
+        lyrics = getLyrics();
+        tablature = getTablature();
     }
 
     public String getArtist() {

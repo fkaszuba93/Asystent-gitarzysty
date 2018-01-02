@@ -13,6 +13,7 @@ import java.util.List;
 import pd.asystentgitarzysty.R;
 import pd.asystentgitarzysty.activity.MainActivity;
 import pd.asystentgitarzysty.model.Chord;
+import pd.asystentgitarzysty.model.Song;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -22,6 +23,7 @@ public class ChordsFragment extends Fragment {
     private TextView chordsText, noChordsText;
     private View chordsView;
     private List<Chord> chords;
+    private boolean isViewCreated = false;
 
     public ChordsFragment() {
         // Required empty public constructor
@@ -30,7 +32,8 @@ public class ChordsFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        chords = ((MainActivity) context).getCurrentSong().getChords();
+        MainActivity activity = (MainActivity) context;
+        chords = activity.getCurrentSong().getChords();
     }
 
     @Override
@@ -41,16 +44,34 @@ public class ChordsFragment extends Fragment {
         chordsView = v.findViewById(R.id.chords_view);
         chordsText = v.findViewById(R.id.chords_text);
         noChordsText = v.findViewById(R.id.no_chords_text);
+        isViewCreated = true;
         displayChords();
         return v;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        isViewCreated = false;
+    }
+
     private void displayChords(){
-        StringBuilder sb = new StringBuilder();
-        for (Chord chord: chords)
-            sb.append(chord.toString() + " ");
-        chordsText.setText(sb.toString());
-        chordsView.setVisibility(View.VISIBLE);
-        noChordsText.setVisibility(View.GONE);
+        if (chords != null && !chords.isEmpty()) {
+            StringBuilder sb = new StringBuilder();
+            for (Chord chord : chords)
+                sb.append(chord.toString() + " ");
+            chordsText.setText(sb.toString());
+            chordsView.setVisibility(View.VISIBLE);
+            noChordsText.setVisibility(View.GONE);
+        } else {
+            chordsView.setVisibility(View.GONE);
+            noChordsText.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void setSong(Song song){
+        chords = song.getChords();
+        if (isViewCreated)
+            displayChords();
     }
 }
