@@ -11,19 +11,18 @@ import android.view.View;
 import android.widget.EditText;
 
 import pd.asystentgitarzysty.R;
-import pd.asystentgitarzysty.activity.MainActivity;
+import pd.asystentgitarzysty.activity.SelectSongActivity;
+import pd.asystentgitarzysty.content.Songs;
 import pd.asystentgitarzysty.model.Song;
 
 public class AddSongDialogFragment extends DialogFragment {
-
-    private MainActivity activity;
 
     private EditText artistText, titleText;
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        activity = (MainActivity) getActivity();
+        SelectSongActivity activity = (SelectSongActivity) getActivity();
         LayoutInflater inflater = activity.getLayoutInflater();
         View v = inflater.inflate(R.layout.fragment_add_song_dialog, null);
         artistText = v.findViewById(R.id.artist_text);
@@ -43,7 +42,7 @@ public class AddSongDialogFragment extends DialogFragment {
         public void onClick(DialogInterface dialogInterface, int i) {
             String artist = artistText.getText().toString();
             String title = titleText.getText().toString();
-            activity.addSong(new Song(artist, title));
+            Songs.add(new Song(artist, title));
         }
     }
 }
