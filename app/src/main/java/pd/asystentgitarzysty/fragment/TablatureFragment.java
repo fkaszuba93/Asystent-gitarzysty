@@ -24,15 +24,12 @@ public class TablatureFragment extends ContentFragment {
         contentView = v.findViewById(R.id.tablature_view);
         contentText = v.findViewById(R.id.tablature_text);
         noContentText = v.findViewById(R.id.no_tablature_text);
-        isViewCreated = true;
-        displayContent();
         return v;
     }
 
     @Override
     public void setSong(Song song) {
         content = song.getTablature();
-        if (isViewCreated)
-            displayContent();
+        displayContent();
     }
 }

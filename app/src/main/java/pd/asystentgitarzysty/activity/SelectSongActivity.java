@@ -1,6 +1,5 @@
 package pd.asystentgitarzysty.activity;
 
-import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,8 +10,6 @@ import pd.asystentgitarzysty.content.Songs;
 import pd.asystentgitarzysty.fragment.AddSongDialogFragment;
 import pd.asystentgitarzysty.fragment.SongsFragment;
 import pd.asystentgitarzysty.model.Song;
-
-import static pd.asystentgitarzysty.activity.MainActivity.*;
 
 
 public class SelectSongActivity extends AppCompatActivity implements SongsFragment.OnListFragmentInteractionListener {
@@ -29,10 +26,9 @@ public class SelectSongActivity extends AppCompatActivity implements SongsFragme
 
     @Override
     public void onListFragmentInteraction(Song song) {
-        Intent intent = new Intent();
         int index = Songs.getSongsList().indexOf(song);
-        intent.putExtra(INDEX, index);
-        setResult(RESULT_CODE_OK, intent);
+        Songs.setCurrentSong(index);
+        setResult(RESULT_OK);
         finish();
     }
 

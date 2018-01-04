@@ -1,13 +1,11 @@
 package pd.asystentgitarzysty.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import pd.asystentgitarzysty.R;
-import pd.asystentgitarzysty.content.Songs;
 import pd.asystentgitarzysty.model.Song;
 
 
@@ -18,12 +16,6 @@ public class LyricsFragment extends ContentFragment {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        content = Songs.getCurrentSong().getLyrics();
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -31,15 +23,12 @@ public class LyricsFragment extends ContentFragment {
         contentView = v.findViewById(R.id.lyrics_view);
         contentText = v.findViewById(R.id.lyrics_text);
         noContentText = v.findViewById(R.id.no_lyrics_text);
-        isViewCreated = true;
-        displayContent();
         return v;
     }
 
     @Override
     public void setSong(Song song){
         content = song.getLyrics();
-        if (isViewCreated)
-            displayContent();
+        displayContent();
     }
 }

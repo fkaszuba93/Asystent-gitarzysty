@@ -16,27 +16,21 @@ import android.widget.TextView;
 import pd.asystentgitarzysty.content.Songs;
 import pd.asystentgitarzysty.fragment.*;
 import pd.asystentgitarzysty.R;
-import pd.asystentgitarzysty.model.Song;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAB = "pd.asystentgitarzysty.activity.tab";
-    static final String INDEX = "pd.asystentgitarzysty.activity.index";
-    private static final int REQUEST_CODE_SELECT_SONG = 2;
-    private static final int REQUEST_EXTERNAL_STORAGE = 3;
+    private static final int REQUEST_CODE_SELECT_SONG = 1;
+    private static final int REQUEST_EXTERNAL_STORAGE = 2;
     private static String[] STORAGE_PERMISSIONS = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
-    static final int RESULT_CODE_OK = 1;
 
     private TabHost tabHost;
     private Button songsButton;
     private TextView currentSongText;
-    private ContentFragment chordsFragment = new ChordsFragment();
-    private ContentFragment lyricsFragment = new LyricsFragment();
-    private ContentFragment tablatureFragment = new TablatureFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,11 +44,11 @@ public class MainActivity extends AppCompatActivity {
         addTab(R.string.lyrics, R.id.tab3);
         setSongsButton();
         verifyStoragePermissions();
-        addFragments();
-        updateTitle();
 
         if (savedInstanceState != null){
             tabHost.setCurrentTab(savedInstanceState.getInt(TAB));
+        } else {
+            addFragments();
         }
     }
 
@@ -65,13 +59,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_SELECT_SONG && resultCode == RESULT_CODE_OK){
-            Songs.setCurrentSong(data.getIntExtra(INDEX, 0));
-            updateTitle();
-            updateFragments();
-        }
+    protected void onResume() {
+        super.onResume();
+        updateTitle();
     }
 
     private void findView(){
@@ -90,9 +80,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void addFragments(){
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.tab1, tablatureFragment)
-                .add(R.id.tab2, chordsFragment)
-                .add(R.id.tab3, lyricsFragment)
+                .add(R.id.tab1, new TablatureFragment())
+                .add(R.id.tab2, new ChordsFragment())
+                .add(R.id.tab3, new LyricsFragment())
                 .commit();
     }
 
@@ -111,13 +101,6 @@ public class MainActivity extends AppCompatActivity {
     private void updateTitle(){
         String title = Songs.getCurrentSong().toString();
         currentSongText.setText(title);
-    }
-
-    private void updateFragments(){
-        Song song = Songs.getCurrentSong();
-        lyricsFragment.setSong(song);
-        chordsFragment.setSong(song);
-        tablatureFragment.setSong(song);
     }
 
     public static boolean isExternalStorageAvailable() {
