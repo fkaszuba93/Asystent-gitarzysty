@@ -41,22 +41,17 @@ public class SongsFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_songs_list, container, false);
-        spinner = view.findViewById(R.id.spinner);
-        setSpinner();
 
         // Set the adapter
         Context context = view.getContext();
         recyclerView = view.findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
+
+        spinner = view.findViewById(R.id.spinner);
+        setSpinner();
         return view;
     }
 
@@ -77,7 +72,7 @@ public class SongsFragment extends Fragment {
         mListener = null;
     }
 
-    private void setRecyclerViewAdapter(Comparator<Song> comparator){
+    private void sortSongsList(Comparator<Song> comparator){
         List<Song> list = Songs.getSongsList();
         Collections.sort(list, comparator);
         recyclerView.setAdapter(new SongsRecyclerViewAdapter(list, mListener));
@@ -115,10 +110,10 @@ public class SongsFragment extends Fragment {
         public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
             switch(position){
                 case 0:
-                    setRecyclerViewAdapter(Song.ARTIST_COMPARATOR);
+                    sortSongsList(Song.ARTIST_COMPARATOR);
                     break;
                 case 1:
-                    setRecyclerViewAdapter(Song.TITLE_COMPARATOR);
+                    sortSongsList(Song.TITLE_COMPARATOR);
                     break;
             }
         }

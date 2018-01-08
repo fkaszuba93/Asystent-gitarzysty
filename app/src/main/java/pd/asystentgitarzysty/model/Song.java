@@ -39,8 +39,8 @@ public class Song {
         this.artist = artist;
         this.title = title;
         filename = toString() + ".txt";
-        chords = getChords();
         lyrics = getLyrics();
+        chords = getChords();
         tablature = getTablature();
     }
 

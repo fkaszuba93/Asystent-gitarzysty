@@ -39,7 +39,8 @@ public class ChordsFragment extends ContentFragment {
             for (Chord chord : chords)
                 sb.append(chord.toString() + " ");
             content = sb.toString();
-        }
+        } else
+            content = null;
         displayContent();
     }
 }

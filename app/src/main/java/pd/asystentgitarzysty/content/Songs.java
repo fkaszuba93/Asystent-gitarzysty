@@ -12,10 +12,11 @@ public class Songs {
 
     private static List<Song> createList(){
         List<Song> list = new ArrayList<>();
-        list.add(new Song("qwerty", "asdf"));
-        list.add(new Song("ghjkl", "zxcvbnm"));
-        list.add(new Song("abcd", "efgh"));
         list.add(new Song("Jimi Hendrix", "Little Wing"));
+        list.add(new Song("Jimi Hendrix", "Hey Joe"));
+        list.add(new Song("Deep Purple", "Smoke on The Water"));
+        list.add(new Song("Led Zeppelin", "Stairway To Heaven"));
+        list.add(new Song("Metallica", "Nothing Else Matters"));
         return list;
     }
 
