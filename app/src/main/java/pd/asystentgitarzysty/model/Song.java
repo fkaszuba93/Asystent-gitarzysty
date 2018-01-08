@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import static android.os.Environment.*;
@@ -11,6 +12,19 @@ import static android.os.Environment.*;
 import pd.asystentgitarzysty.activity.MainActivity;
 
 public class Song {
+
+    public static final Comparator<Song> ARTIST_COMPARATOR = new Comparator<Song>() {
+        @Override
+        public int compare(Song s1, Song s2) {
+            return s1.artist.compareToIgnoreCase(s2.artist);
+        }
+    };
+    public static final Comparator<Song> TITLE_COMPARATOR = new Comparator<Song>() {
+        @Override
+        public int compare(Song s1, Song s2) {
+            return s1.title.compareToIgnoreCase(s2.title);
+        }
+    };
 
     private static final String CHORDS_DIR = "AsystentGitarzysty/chords/";
     private static final String LYRICS_DIR = "AsystentGitarzysty/lyrics/";
@@ -28,14 +42,6 @@ public class Song {
         chords = getChords();
         lyrics = getLyrics();
         tablature = getTablature();
-    }
-
-    public String getArtist() {
-        return artist;
-    }
-
-    public String getTitle() {
-        return title;
     }
 
     public String getLyrics(){

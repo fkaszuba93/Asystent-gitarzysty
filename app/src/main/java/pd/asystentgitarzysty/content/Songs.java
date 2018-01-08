@@ -12,7 +12,9 @@ public class Songs {
 
     private static List<Song> createList(){
         List<Song> list = new ArrayList<>();
-        list.add(new Song("qwerty", "test"));
+        list.add(new Song("qwerty", "asdf"));
+        list.add(new Song("ghjkl", "zxcvbnm"));
+        list.add(new Song("abcd", "efgh"));
         list.add(new Song("Jimi Hendrix", "Little Wing"));
         return list;
     }
