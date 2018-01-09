@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         addTab(R.string.tablature, R.id.tab1);
         addTab(R.string.chords, R.id.tab2);
         addTab(R.string.lyrics, R.id.tab3);
+        addTab(R.string.metronome, R.id.tab4);
         setSongsButton();
         verifyStoragePermissions();
 
@@ -83,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
                 .add(R.id.tab1, new TablatureFragment())
                 .add(R.id.tab2, new ChordsFragment())
                 .add(R.id.tab3, new LyricsFragment())
+                .add(R.id.tab4, new MetronomeFragment())
                 .commit();
     }
 
