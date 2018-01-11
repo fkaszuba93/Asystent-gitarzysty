@@ -33,14 +33,10 @@ public class Metronome {
     }
 
     public void setBeats(int beats) {
-        if (beats < 1)
-            throw new IllegalArgumentException();
         this.beats = beats;
     }
 
     public void setTempo(int tempo) {
-        if (tempo < 1)
-            throw new IllegalArgumentException();
         this.tempo = tempo;
         if (isRunning()) {
             stop();
@@ -49,6 +45,10 @@ public class Metronome {
     }
 
     public void start(){
+        if (beats < 1 || tempo < 1)
+            throw new IllegalStateException("beats and tempo must be greater than 0");
+        if (isRunning())
+            throw new IllegalStateException("already started");
         timer = new Timer();
         long period = (long) (1000 / ((float) tempo / 60));
         timer.schedule(new PlayClickTask(), 0, period);
