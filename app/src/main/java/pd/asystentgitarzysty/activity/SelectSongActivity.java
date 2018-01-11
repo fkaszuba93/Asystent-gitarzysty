@@ -18,9 +18,10 @@ public class SelectSongActivity extends AppCompatActivity implements SongsFragme
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_song);
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.songs_fragment_container, new SongsFragment())
-                .commit();
+        if (savedInstanceState == null)
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.songs_fragment_container, new SongsFragment())
+                    .commit();
         setAddButton();
     }
 
