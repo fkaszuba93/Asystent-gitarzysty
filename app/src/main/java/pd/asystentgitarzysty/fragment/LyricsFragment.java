@@ -23,6 +23,7 @@ public class LyricsFragment extends ContentFragment {
         contentView = v.findViewById(R.id.lyrics_view);
         contentText = v.findViewById(R.id.lyrics_text);
         noContentText = v.findViewById(R.id.no_lyrics_text);
+        fullscreenButton = v.findViewById(R.id.fullscreen_button);
         return v;
     }
 

@@ -1,43 +1,58 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="pd.asystentgitarzysty.fragment.TablatureFragment">
 
-    <TextView
-        android:id="@+id/no_tablature_text"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center_vertical|center_horizontal|center"
-        android:paddingTop="50dp"
-        android:text="@string/no_tablature_available"
-        android:textAlignment="center"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="18sp"
-        android:textStyle="italic" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <ScrollView
-        android:id="@+id/tablature_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
-
-        <HorizontalScrollView
+        <TextView
+            android:id="@+id/no_tablature_text"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical|center_horizontal|center"
+            android:paddingTop="50dp"
+            android:text="@string/no_tablature_available"
+            android:textAlignment="center"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="18sp"
+            android:textStyle="italic" />
 
-            <TextView
-                android:id="@+id/tablature_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="30dp"
-                android:fontFamily="serif-monospace"
-                android:textColor="@android:color/black"
-                android:textSize="18sp" />
+        <ScrollView
+            android:id="@+id/tablature_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
 
-        </HorizontalScrollView>
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-    </ScrollView>
+                <TextView
+                    android:id="@+id/tablature_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="serif-monospace"
+                    android:padding="30dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp" />
 
-</LinearLayout>
+            </HorizontalScrollView>
+
+        </ScrollView>
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/fullscreen_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginRight="5dp"
+        android:padding="0dp"
+        android:backgroundTint="@android:color/transparent"
+        android:src="@drawable/fullscreen" />
+
+</android.support.design.widget.CoordinatorLayout>

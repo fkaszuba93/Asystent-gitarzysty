@@ -21,6 +21,7 @@ import pd.asystentgitarzysty.R;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAB = "pd.asystentgitarzysty.activity.tab";
+    private static final String FULLSCREEN = "pd.asystentgitarzysty.activity.fullscreen";
     private static final int REQUEST_CODE_SELECT_SONG = 1;
     private static final int REQUEST_EXTERNAL_STORAGE = 2;
     private static String[] STORAGE_PERMISSIONS = {
@@ -31,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
     private TabHost tabHost;
     private Button songsButton;
     private TextView currentSongText;
+    private View topBar, tabs;
+
+    private boolean fullscreen = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState != null){
             tabHost.setCurrentTab(savedInstanceState.getInt(TAB));
+            fullscreen = savedInstanceState.getBoolean(FULLSCREEN);
+            setFullscreen(fullscreen);
         } else {
             addFragments();
         }
@@ -57,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle state) {
         super.onSaveInstanceState(state);
         state.putInt(TAB, tabHost.getCurrentTab());
+        state.putBoolean(FULLSCREEN, fullscreen);
     }
 
     @Override
@@ -69,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
         tabHost = findViewById(R.id.tabhost);
         songsButton = findViewById(R.id.songs_button);
         currentSongText = findViewById(R.id.current_song_text);
+        topBar = findViewById(R.id.top_bar);
+        tabs = findViewById(R.id.tabs);
     }
 
     private void addTab(int labelId, int content){
@@ -103,6 +112,21 @@ public class MainActivity extends AppCompatActivity {
     private void updateTitle(){
         String title = Songs.getCurrentSong().toString();
         currentSongText.setText(title);
+    }
+
+    public void setFullscreen(boolean fullscreen){
+        if (fullscreen){
+            topBar.setVisibility(View.GONE);
+            tabs.setVisibility(View.GONE);
+        } else {
+            topBar.setVisibility(View.VISIBLE);
+            tabs.setVisibility(View.VISIBLE);
+        }
+        this.fullscreen = fullscreen;
+    }
+
+    public boolean isFullscreen(){
+        return fullscreen;
     }
 
     public static boolean isExternalStorageAvailable() {

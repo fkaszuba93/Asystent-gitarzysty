@@ -24,6 +24,7 @@ public class TablatureFragment extends ContentFragment {
         contentView = v.findViewById(R.id.tablature_view);
         contentText = v.findViewById(R.id.tablature_text);
         noContentText = v.findViewById(R.id.no_tablature_text);
+        fullscreenButton = v.findViewById(R.id.fullscreen_button);
         return v;
     }
 
