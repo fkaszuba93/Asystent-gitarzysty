@@ -13,13 +13,21 @@ import pd.asystentgitarzysty.R;
 
 public class Metronome {
 
+    private static Metronome instance;
+
     private int beats, tempo;
     private final int click1, click2;
     private boolean running = false;
     private SoundPool soundPool;
     private Timer timer;
 
-    public Metronome(Context context){
+    public static Metronome getInstance(Context context){
+        if (instance == null)
+            instance = new Metronome(context);
+        return instance;
+    }
+
+    private Metronome(Context context){
         AudioAttributes attrs = new AudioAttributes.Builder()
                 .setContentType(CONTENT_TYPE_SONIFICATION)
                 .setUsage(USAGE_UNKNOWN)

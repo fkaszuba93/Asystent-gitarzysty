@@ -17,8 +17,9 @@ import pd.asystentgitarzysty.model.Metronome;
  */
 public class MetronomeFragment extends Fragment {
 
-    private static final String BEATS = "pd.asystentgitarzysty.beats";
-    private static final String TEMPO = "pd.asystentgitarzysty.tempo";
+    private static final String BEATS = "pd.asystentgitarzysty.fragment.beats";
+    private static final String TEMPO = "pd.asystentgitarzysty.fragment.tempo";
+    private static final String BUTTON_TEXT = "pd.asystentgitarzysty.fragment.buttonText";
 
     private NumberPicker beatsPicker, tempoPicker;
     private Button startStopButton;
@@ -31,9 +32,7 @@ public class MetronomeFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        metronome = new Metronome(context);
-        metronome.setBeats(4);
-        metronome.setTempo(120);
+        metronome = Metronome.getInstance(context);
     }
 
     @Override
@@ -48,12 +47,9 @@ public class MetronomeFragment extends Fragment {
         setBeatsPicker();
         setTempoPicker();
         if (savedInstanceState != null){
-            int beats = savedInstanceState.getInt(BEATS);
-            int tempo = savedInstanceState.getInt(TEMPO);
-            beatsPicker.setValue(beats);
-            tempoPicker.setValue(tempo);
-            metronome.setBeats(beats);
-            metronome.setTempo(tempo);
+            beatsPicker.setValue(savedInstanceState.getInt(BEATS));
+            tempoPicker.setValue(savedInstanceState.getInt(TEMPO));
+            startStopButton.setText(savedInstanceState.getString(BUTTON_TEXT));
         }
         return v;
     }
@@ -63,12 +59,7 @@ public class MetronomeFragment extends Fragment {
         super.onSaveInstanceState(state);
         state.putInt(BEATS, beatsPicker.getValue());
         state.putInt(TEMPO, tempoPicker.getValue());
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        metronome.stop();
+        state.putString(BUTTON_TEXT, startStopButton.getText().toString());
     }
 
     private void setBeatsPicker(){
@@ -100,6 +91,8 @@ public class MetronomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (!metronome.isRunning()){
+                    metronome.setBeats(beatsPicker.getValue());
+                    metronome.setTempo(tempoPicker.getValue());
                     metronome.start();
                     startStopButton.setText(R.string.stop);
                 } else {
