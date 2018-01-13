@@ -89,7 +89,8 @@ public class SongsFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnListFragmentInteractionListener {
-        void onListFragmentInteraction(Song item);
+        void onSelectSong(Song s);
+        void onDeleteSong(Song s);
     }
 
     private void setSpinner(){

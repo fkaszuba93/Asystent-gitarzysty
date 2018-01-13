@@ -44,6 +44,14 @@ public class Song {
         tablature = getTablature();
     }
 
+    public String getArtist() {
+        return artist;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
     public String getLyrics(){
         if (lyrics == null)
             lyrics = getContentFromFile(LYRICS_DIR);

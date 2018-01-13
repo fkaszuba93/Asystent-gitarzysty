@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import pd.asystentgitarzysty.R;
@@ -41,8 +42,15 @@ public class SongsRecyclerViewAdapter extends RecyclerView.Adapter<SongsRecycler
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
+                    mListener.onSelectSong(holder.mItem);
                 }
+            }
+        });
+        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mListener != null)
+                    mListener.onDeleteSong(holder.mItem);
             }
         });
     }
@@ -55,12 +63,14 @@ public class SongsRecyclerViewAdapter extends RecyclerView.Adapter<SongsRecycler
     public class ViewHolder extends RecyclerView.ViewHolder {
         final View mView;
         final TextView mContentView;
+        final ImageButton deleteButton;
         Song mItem;
 
         ViewHolder(View view) {
             super(view);
             mView = view;
             mContentView = view.findViewById(R.id.content);
+            deleteButton = view.findViewById(R.id.delete_button);
         }
 
         @Override

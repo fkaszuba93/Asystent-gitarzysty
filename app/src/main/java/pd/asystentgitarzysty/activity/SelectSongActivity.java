@@ -26,11 +26,22 @@ public class SelectSongActivity extends AppCompatActivity implements SongsFragme
     }
 
     @Override
-    public void onListFragmentInteraction(Song song) {
+    protected void onDestroy() {
+        super.onDestroy();
+        if (Songs.isListChanged())
+            Songs.saveSongsList();
+    }
+
+    @Override
+    public void onSelectSong(Song song) {
         int index = Songs.getSongsList().indexOf(song);
         Songs.setCurrentSong(index);
         setResult(RESULT_OK);
         finish();
+    }
+
+    @Override
+    public void onDeleteSong(Song song) {
     }
 
     private void setAddButton(){
