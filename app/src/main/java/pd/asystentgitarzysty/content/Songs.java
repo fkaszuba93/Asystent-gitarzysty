@@ -13,6 +13,7 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import pd.asystentgitarzysty.activity.MainActivity;
 import pd.asystentgitarzysty.model.Song;
 
 public class Songs {
@@ -36,6 +37,8 @@ public class Songs {
     }
 
     public static void delete(Song s){
+        if (currentSong == songsList.size() - 1)
+            currentSong--;
         songsList.remove(s);
         listChanged = true;
     }
@@ -57,9 +60,7 @@ public class Songs {
                 obj.put("title", s.getTitle());
                 array.put(obj);
             }
-            File file = new File(
-                    Environment.getExternalStoragePublicDirectory(DIRECTORY_DOCUMENTS),
-                    FILE_PATH);
+            File file = getFile();
             FileWriter writer = new FileWriter(file);
             writer.write(array.toString());
             writer.close();
@@ -71,9 +72,7 @@ public class Songs {
     private static List<Song> getListFromFile(){
         List<Song> list = new ArrayList<>();
         try {
-            File file = new File(
-                    Environment.getExternalStoragePublicDirectory(DIRECTORY_DOCUMENTS),
-                    FILE_PATH);
+            File file = getFile();
             BufferedReader reader = new BufferedReader(new FileReader(file));
             String data = reader.readLine();
             JSONArray array = new JSONArray(data);
@@ -85,5 +84,15 @@ public class Songs {
             throw new RuntimeException(e.getMessage());
         }
         return list;
+    }
+
+    private static File getFile() {
+        if (MainActivity.isExternalStorageAvailable())
+            return new File(
+                    Environment.getExternalStoragePublicDirectory(DIRECTORY_DOCUMENTS),
+                    FILE_PATH
+            );
+        else
+            return null;
     }
 }

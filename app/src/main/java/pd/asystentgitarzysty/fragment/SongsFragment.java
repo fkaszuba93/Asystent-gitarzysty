@@ -72,6 +72,10 @@ public class SongsFragment extends Fragment {
         mListener = null;
     }
 
+    public void refreshSongsList(){
+        recyclerView.getAdapter().notifyDataSetChanged();
+    }
+
     private void sortSongsList(Comparator<Song> comparator){
         List<Song> list = Songs.getSongsList();
         Collections.sort(list, comparator);

@@ -25,14 +25,18 @@ public class AddSongDialogFragment extends DialogFragment {
         SelectSongActivity activity = (SelectSongActivity) getActivity();
         LayoutInflater inflater = activity.getLayoutInflater();
         View v = inflater.inflate(R.layout.fragment_add_song_dialog, null);
-        artistText = v.findViewById(R.id.artist_text);
-        titleText = v.findViewById(R.id.title_text);
+        findView(v);
 
         Builder builder = new Builder(activity);
         builder.setView(v)
             .setPositiveButton(R.string.add, new AddButtonOnClickListener())
             .setNegativeButton(R.string.cancel, null);
         return builder.create();
+    }
+
+    private void findView(View v) {
+        artistText = v.findViewById(R.id.artist_text);
+        titleText = v.findViewById(R.id.title_text);
     }
 
 
