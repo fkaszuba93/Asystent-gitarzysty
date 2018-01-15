@@ -47,6 +47,8 @@ public class AddSongDialogFragment extends DialogFragment {
             String artist = artistText.getText().toString();
             String title = titleText.getText().toString();
             Songs.add(new Song(artist, title));
+            SongsFragment songsFragment = (SongsFragment) getActivity().getSupportFragmentManager().findFragmentByTag("songs");
+            songsFragment.sortSongsList();
         }
     }
 }

@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -33,6 +34,8 @@ public class SongsFragment extends Fragment {
     private RecyclerView recyclerView;
     private OnListFragmentInteractionListener mListener;
 
+    private Comparator<Song> comparator;
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -49,6 +52,7 @@ public class SongsFragment extends Fragment {
         Context context = view.getContext();
         recyclerView = view.findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        recyclerView.setAdapter(new SongsRecyclerViewAdapter(Songs.getSongsList(), mListener));
 
         spinner = view.findViewById(R.id.spinner);
         setSpinner();
@@ -76,10 +80,10 @@ public class SongsFragment extends Fragment {
         recyclerView.getAdapter().notifyDataSetChanged();
     }
 
-    private void sortSongsList(Comparator<Song> comparator){
+    public void sortSongsList(){
         List<Song> list = Songs.getSongsList();
         Collections.sort(list, comparator);
-        recyclerView.setAdapter(new SongsRecyclerViewAdapter(list, mListener));
+        refreshSongsList();
     }
 
     /**
@@ -113,14 +117,9 @@ public class SongsFragment extends Fragment {
 
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-            switch(position){
-                case 0:
-                    sortSongsList(Song.ARTIST_COMPARATOR);
-                    break;
-                case 1:
-                    sortSongsList(Song.TITLE_COMPARATOR);
-                    break;
-            }
+            List<Comparator<Song>> comparators = Arrays.asList(Song.ARTIST_COMPARATOR, Song.TITLE_COMPARATOR);
+            comparator = comparators.get(position);
+            sortSongsList();
         }
 
         @Override
