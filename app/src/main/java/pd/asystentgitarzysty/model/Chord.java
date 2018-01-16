@@ -14,16 +14,28 @@ public class Chord {
     private String type;
     private String extensions;
 
-    public Chord(String key, String type) {
+    private Chord(String key, String type) {
         this.key = key;
         this.type = type;
         this.extensions = "";
     }
 
-    public Chord(String key, String type, String extensions) {
+    private Chord(String key, String type, String extensions) {
         this.key = key;
         this.type = type;
         this.extensions = extensions;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getExtensions() {
+        return extensions;
     }
 
     private static String createRegex(){

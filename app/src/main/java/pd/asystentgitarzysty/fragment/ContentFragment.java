@@ -3,7 +3,6 @@ package pd.asystentgitarzysty.fragment;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import pd.asystentgitarzysty.activity.MainActivity;
 import pd.asystentgitarzysty.content.Songs;
@@ -11,16 +10,15 @@ import pd.asystentgitarzysty.model.Song;
 
 
 public abstract class ContentFragment extends Fragment {
-    
-    protected TextView contentText, noContentText;
-    protected View contentView;
-    protected String content;
+
+    protected View contentView, noContentView;
     protected ImageButton fullscreenButton;
 
     @Override
     public void onResume() {
         super.onResume();
         setSong(Songs.getCurrentSong());
+        displayContent();
         setFullscreenButton();
     }
 
@@ -37,15 +35,19 @@ public abstract class ContentFragment extends Fragment {
     }
 
     protected void displayContent(){
-        if (content != null) {
-            contentText.setText(content);
+        if (isContentAvailable()) {
+            setContent();
             contentView.setVisibility(View.VISIBLE);
-            noContentText.setVisibility(View.GONE);
+            noContentView.setVisibility(View.GONE);
         } else {
             contentView.setVisibility(View.GONE);
-            noContentText.setVisibility(View.VISIBLE);
+            noContentView.setVisibility(View.VISIBLE);
         }
     }
+
+    protected abstract boolean isContentAvailable();
+
+    protected abstract void setContent();
 
     public abstract void setSong(Song s);
 

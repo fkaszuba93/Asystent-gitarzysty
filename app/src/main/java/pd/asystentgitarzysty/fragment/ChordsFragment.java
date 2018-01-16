@@ -1,9 +1,14 @@
 package pd.asystentgitarzysty.fragment;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridLayout;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -14,6 +19,7 @@ import pd.asystentgitarzysty.model.Song;
 
 public class ChordsFragment extends ContentFragment {
 
+    private GridLayout grid;
     private List<Chord> chords;
 
     public ChordsFragment() {
@@ -26,21 +32,66 @@ public class ChordsFragment extends ContentFragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_chords, container, false);
         contentView = v.findViewById(R.id.chords_view);
-        contentText = v.findViewById(R.id.chords_text);
-        noContentText = v.findViewById(R.id.no_chords_text);
+        noContentView = v.findViewById(R.id.no_chords_text);
+        grid = v.findViewById(R.id.grid);
         return v;
+    }
+
+    @Override
+    protected boolean isContentAvailable() {
+        return chords != null && !chords.isEmpty();
+    }
+
+    @Override
+    protected void setContent() {
+        if (grid.getChildCount() > 0)
+            grid.removeAllViews();
+        for (Chord chord: chords)
+            grid.addView(getChordView(chord));
+    }
+
+    private View getChordView(Chord chord){
+        View view = getLayoutInflater().inflate(R.layout.chord, null);
+        TextView nameText = view.findViewById(R.id.name_text);
+        nameText.setText(chord.toString());
+        view.setOnClickListener(new ChordViewOnClickListener(chord));
+        return view;
     }
 
     @Override
     public void setSong(Song song){
         chords = song.getChords();
-        if (chords != null && !chords.isEmpty()) {
-            StringBuilder sb = new StringBuilder();
-            for (Chord chord : chords)
-                sb.append(chord.toString() + " ");
-            content = sb.toString();
-        } else
-            content = null;
-        displayContent();
+    }
+
+
+    private class ChordViewOnClickListener implements View.OnClickListener {
+
+        private Chord chord;
+
+        ChordViewOnClickListener(Chord chord) {
+            this.chord = chord;
+        }
+
+        @Override
+        public void onClick(View view) {
+            String url = getUrl();
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            startActivity(intent);
+        }
+
+        @NonNull
+        private String getUrl() {
+            final String URL = "http://www.all-guitar-chords.com/index.php";
+            String key = format(chord.getKey());
+            String type = format(chord.getType() + chord.getExtensions());
+            return URL + "?ch=" + key + "&mm=" + type;
+        }
+
+        private String format(String s){
+            return s.replace("#", "%23")
+                    .replace("/", "%2F")
+                    .replace("min", "m")
+                    .replace("H", "B");
+        }
     }
 }
