@@ -40,8 +40,8 @@ public class Song {
         this.title = title;
         filename = toString() + ".txt";
         lyrics = getLyrics();
-        chords = getChords();
         tablature = getTablature();
+        chords = getChords();
     }
 
     public String getArtist() {
@@ -69,18 +69,26 @@ public class Song {
             chords = new ArrayList<>();
             if (lyrics != null)
                 parseChords(lyrics);
+            if (chords.isEmpty() && tablature != null)
+                parseChords(tablature);
         }
         return chords;
     }
 
     private void parseChords(String source){
-        for (String s: source.split("\\s")) {
-            if (Chord.check(s)) {
-                Chord chord = Chord.parse(s);
-                if (!chords.contains(chord))
-                    chords.add(chord);
-            }
+        String[] s = source.split("\\s+");
+        for (int i = 0; i < s.length; i++) {
+            boolean match = Chord.match(s[i]);
+            if (i != 0 && i != s.length - 1)
+                match &= Chord.match(s[i-1]) || Chord.match(s[i+1]);
+            if (match)
+                addChord(Chord.parse(s[i]));
         }
+    }
+
+    private void addChord(Chord chord){
+        if (!chords.contains(chord))
+            chords.add(chord);
     }
 
     public void deleteContent(){

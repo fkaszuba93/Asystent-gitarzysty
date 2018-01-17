@@ -11,6 +11,7 @@ import android.widget.GridLayout;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.Map;
 
 import pd.asystentgitarzysty.R;
 import pd.asystentgitarzysty.model.Chord;
@@ -82,9 +83,15 @@ public class ChordsFragment extends ContentFragment {
         @NonNull
         private String getUrl() {
             final String URL = "http://www.all-guitar-chords.com/index.php";
-            String key = format(chord.getKey());
-            String type = format(chord.getType() + chord.getExtensions());
-            return URL + "?ch=" + key + "&mm=" + type;
+            String name = chord.toString();
+            String key = chord.getKey();
+            Map<String, String> keysMap = Chord.KEYS;
+            if (key.contains("#"))
+                name = name.replace(key, key + "/" + keysMap.get(key));
+            else if (key.contains("b"))
+                name = name.replace(key, keysMap.get(key) + "/" + key);
+            name = format(name);
+            return URL + "?ch=" + name;
         }
 
         private String format(String s){
