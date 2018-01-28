@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Asystent gitarzysty</string>
+
+    <string name="tablature">Tabulatura</string>
+    <string name="chords">Akordy</string>
+    <string name="lyrics">Tekst</string>
+    <string name="artist">Wykonawca</string>
+    <string name="title">Tytuł</string>
+    <string name="songs">Utwory</string>
+    <string name="no_chords_available">Brak dostępnych akordów</string>
+    <string name="no_lyrics_available">Brak dostępnego tekstu</string>
+    <string name="no_tablature_available">Brak dostępnej tabulatury</string>
+    <string name="add_song">Dodaj utwór</string>
+    <string name="add">Dodaj</string>
+    <string name="cancel">Anuluj</string>
+    <string name="delete">Usuń</string>
+    <string name="delete_song_dialog">Czy na pewno chcesz usunąć ten utwór?</string>
+    <string name="delete_content">Usuń całą zawartość\n(uwaga: pliki zostaną trwale usunięte)</string>
+    <string name="metronome">Metronom</string>
+    <string name="beats">Uderzenia</string>
+    <string name="tempo">Tempo</string>
+    <string name="sort_by">Sortuj wg:</string>
+    <string-array name="sort_options">
+        <item>Wykonawca</item>
+        <item>Tytuł</item>
+    </string-array>
+</resources>
